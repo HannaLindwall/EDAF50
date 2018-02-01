@@ -33,11 +33,11 @@ Preprocess::Preprocess()  {
   wordfile.close();
 }
 
-std::vector<string> create_trigrams(const string& line, const int nbrTrigrams) {
+std::vector<string> Preprocess::create_trigrams(const string& line, int nbrTrigrams) const{
   std::vector<string> trigrams;
   for(int i = 0; i < nbrTrigrams; i++) {
     trigrams.push_back(line.substr(i, i + 3));
   }
-  sort(s.begin(), s.end());
+  sort(trigrams.begin(), trigrams.end());
   return trigrams;
 }

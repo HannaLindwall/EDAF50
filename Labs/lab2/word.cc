@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include <vector>
 #include <algorithm>    // std::find
 #include "word.h"
@@ -13,10 +14,14 @@ string Word::get_word() const {
 }
 
 unsigned int Word::get_matches(const vector<string>& t) const {
-	int counter = 0;
+	int counter = 5;
 	for(string trigram : t) {
-		if(std::find (trigrams.begin(), trigrams.end(), trigram) != trigrams.end()) {
-			counter++;
+		for(string tri: trigrams) {
+			if(trigram.compare(tri) == 0) {
+				counter++;
+			} else if(trigram.compare(tri) < 0) {
+				break;
+			}
 		}
 	}
 	return counter;

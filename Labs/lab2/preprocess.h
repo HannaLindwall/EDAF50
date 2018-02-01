@@ -7,7 +7,7 @@
 class Preprocess {
 public:
 	Preprocess();
-	std::vector<string> create_trigrams(const string& s, int nbrTrigrams);
+	std::vector<std::string> create_trigrams(const std::string& s, int nbrTrigrams) const;
 private:
 };
 

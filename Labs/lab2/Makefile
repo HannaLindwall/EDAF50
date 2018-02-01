@@ -30,7 +30,7 @@ test: spell
 	./spell
 
 # Targets rely on implicit rules for compiling and linking
-spell: preprocess.o dictionary.o word.o
+spell: preprocess.o dictionary.o spell.o word.o
 # Phony targets
 .PHONY: all test clean distclean
 

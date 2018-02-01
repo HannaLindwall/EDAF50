@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
+#include "word.h"
+#include "preprocess.h"
 
 using std::string;
 using std::vector;
@@ -16,11 +18,11 @@ public:
 	vector<string> get_suggestions(const string& word) const;
 
 private:
-	unordered_set<string> dictionary;
+	std::unordered_set<string> dictionary;
 	vector<Word> words[SIZE];
-	add_trigram_suggestions(vector<string>& suggestions, const string& word) const;
-	rank_suggestions(vector<string>& suggestions, const string& word) const;
-	trim_suggestions(vector<string>& suggestions) const;
+	void add_trigram_suggestions(vector<string>& suggestions, const string& word) const;
+	void rank_suggestions(vector<string>& suggestions, const string& word) const;
+	void trim_suggestions(vector<string>& suggestions) const;
 };
 
 #endif
