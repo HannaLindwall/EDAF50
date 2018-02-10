@@ -14,7 +14,7 @@ string Word::get_word() const {
 }
 
 unsigned int Word::get_matches(const vector<string>& t) const {
-	int counter = 5;
+	int counter = 0;
 	for(string trigram : t) {
 		for(string tri: trigrams) {
 			if(trigram.compare(tri) == 0) {
