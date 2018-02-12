@@ -6,7 +6,6 @@
 #include <vector>
 #include <unordered_set>
 #include "word.h"
-#include "preprocess.h"
 
 using std::string;
 using std::vector;

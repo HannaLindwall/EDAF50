@@ -2,20 +2,26 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include "preprocess.h"
 using std::cout;
 using std::endl;
 using std::string;
 
-Preprocess::Preprocess()  {
+std::vector<string> create_trigrams(const string& line, int nbrTrigrams) {
+  std::vector<string> trigrams;
+  for(int i = 0; i < nbrTrigrams; i++) {
+    trigrams.push_back(line.substr(i, 3));
+  }
+  sort(trigrams.begin(), trigrams.end());
+  return trigrams;
+}
+
+int main()  {
   std::ifstream infile("words");
   std::string line;
 
   std::ofstream wordfile;
   wordfile.open("words.txt");
-
-  while (std::getline(infile, line))
-  {
+  while (std::getline(infile, line)) {
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
     wordfile << line << " ";
     int nbrTrigrams = line.length() - 2;
@@ -31,13 +37,4 @@ Preprocess::Preprocess()  {
     wordfile << endl;
   }
   wordfile.close();
-}
-
-std::vector<string> Preprocess::create_trigrams(const string& line, int nbrTrigrams) const{
-  std::vector<string> trigrams;
-  for(int i = 0; i < nbrTrigrams; i++) {
-    trigrams.push_back(line.substr(i, i + 3));
-  }
-  sort(trigrams.begin(), trigrams.end());
-  return trigrams;
 }

@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <unordered_set>
 #include "word.h"
-#include "preprocess.h"
 #include "dictionary.h"
 
 using std::string;
@@ -25,8 +24,9 @@ Dictionary::Dictionary() {
 			sstm >> size;
 			vector<string> trigrams;
 			string trigram;
-			while(sstm >> trigram)
+			while(sstm >> trigram) {
 				trigrams.push_back(trigram);
+			}
 			words[word.length() - 1].push_back(Word(word, trigrams)) ;
 		}
 	}
@@ -62,26 +62,29 @@ void Dictionary::add_trigram_suggestions(vector<string>& suggestions, const stri
 			m = SIZE - 2;
 			n = SIZE - 1;
 		} else {
-			m = word_length - 2;
+			m = word_length -2;
 			n = word_length;
 		}
+
 		//get matching trigrams for the misspelled word from the lists with matching length
 		unsigned int matches;
 		for(int k = m ; k <= n; k++) {
 			for(Word w: words[k]) {
 				matches = w.get_matches(trigrams);
-				if(matches >= trigrams.size() / 2)
+				if(matches >= trigrams.size() / 2) {
 					suggestions.push_back(w.get_word());
+				}
 			}
 		}
 	}
 }
+
 void Dictionary::rank_suggestions(vector<string>& suggestions, const string& word) const {
 	unsigned int row = word.length();
 	if(row > 2 && row <= SIZE) {
-		vector<pair<int,string>> ranking;
-		for(string s : suggestions) {
-			unsigned int col = s.length();
+		vector<std::pair<int,string>> ranking;
+		for(string suggestion : suggestions) {
+			unsigned int col = suggestion.length();
 			int cost[SIZE+1][SIZE+1];
 			//fill matrix
 			cost[0][0] = 0;
@@ -90,19 +93,19 @@ void Dictionary::rank_suggestions(vector<string>& suggestions, const string& wor
 			//calculate cost
 			for(unsigned int i = 1; i <= row; ++i)
 				for(unsigned int j = 1; j <= col; ++j)
-					cost[i][j] = std::min({ cost[i - 1][j] + 1, cost[i][j - 1] + 1, cost[i - 1][j - 1] + (s[j - 1] == word[i - 1] ? 0 : 1)});
+					cost[i][j] = std::min({ cost[i - 1][j] + 1, cost[i][j - 1] + 1, cost[i - 1][j - 1] + (suggestion[j - 1] == word[i - 1] ? 0 : 1)});
 			//fill vector according to cost matrix
-			ranking.push_back(make_pair(cost[row][col], word));
+			ranking.push_back(make_pair(cost[row][col], suggestion));
 		}
 		sort(ranking.begin(), ranking.end());
 		suggestions.clear();
 		//sort words
-		for(auto pair: ranking)
-			suggestions.push_back(s.second);
+		for(auto pair: ranking) {
+			suggestions.push_back(pair.second);
+		}
 	}
 }
 void Dictionary::trim_suggestions(vector<string>& suggestions) const {
 	std::size_t size = suggestions.size() >= 5 ? 5 : suggestions.size();
-	suggestions.reseze(size);
-	}
+	suggestions.resize(size);
 }
