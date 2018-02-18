@@ -18,7 +18,7 @@ public:
 	string print_result(const string new_text) const;
 private:
   void remove_tags();
-  void translate_tags();
+  void translate_specialchars();
   string text;
 };
 

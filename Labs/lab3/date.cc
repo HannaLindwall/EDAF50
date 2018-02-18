@@ -61,66 +61,61 @@ istream& operator>>(istream& is, Date& date) {
 	string line;
 	std::getline(is, line);
 	size_t n = std::count(line.begin(), line.end(), '-');
-	int i = 0;
-	int flag = 0;
 	if(n == 2) {
 		std::stringstream ss(line);
-		while(ss.good()) {
-			string substr;
-			getline(ss, substr, '-');
-			int digit = std::stoi (substr);
-			if(i == 0) {
-				if(date.check_year(digit)) {
-					date.year = digit;
-				} else {
-					flag = 1;
-				}
-			} else if(i == 1) {
-				if(date.check_month(digit)) {
-					date.month = digit;
-				} else {
-					flag = 1;
-				}
-			} else {
-				if(date.check_day(digit, date.month)) {
-					date.day = digit;
-				} else {
-					flag = 1;
-				}
-			}
-			if(flag != 0) {
-				ss.setstate(std::ios_base::failbit);
-				is.setstate(std::ios_base::failbit);
-			}
-			i++;
+		int digit ;
+		char dash;
+		ss >> digit;
+		if(!date.check_year(date, digit)) {
+			is.setstate(std::ios_base::failbit);
+			return is;
+		}
+		ss >> dash;
+		if(dash != '-') {
+			is.setstate(std::ios_base::failbit);
+			return is;
+		}
+		ss >> digit;
+		if(!date.check_month(date, digit)) {
+			is.setstate(std::ios_base::failbit);
+			return is;
+		}
+		ss >> dash;
+		if(dash != '-') {
+			is.setstate(std::ios_base::failbit);
+			return is;
+		}
+		ss >> digit;
+		if(!date.check_day(date, digit, date.month)) {
+			is.setstate(std::ios_base::failbit);
+			return is;
 		}
 	} else {
 		is.setstate(std::ios_base::failbit);
-		cout << "wrong format: must contain two -> XXXX-XX-XX" << endl;
 	}
 
 	return is;
 }
 
-bool Date::check_year(const int year) {
+bool Date::check_year(Date& date, const int year) {
 	if(year >= 1000 && year <= 9999) {
+		date.year = year;
 		return true;
 	}
-	cout << "year input not valid" << endl;
 	return false;
 }
 
-bool Date::check_month(const int month) {
+bool Date::check_month(Date& date, const int month) {
 	if(month > 0 && month <= 12) {
+		date.month = month;
 		return true;
 	}
-	cout << "month input not valid" << endl;
 	return false;
 }
-bool Date::check_day(const int day, const int month) {
+bool Date::check_day(Date& date, const int day, const int month) {
 	if(day > 0 && day <= daysPerMonth[month - 1]) {
+		date.day = day;
 		return true;
 	}
-	cout << "day input not valid" << endl;
 	return false;
 }

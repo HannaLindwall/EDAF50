@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <map>
+#include <regex>
 #include "tagremover.h"
 
 using std::size_t;
@@ -11,6 +13,7 @@ Tagremover::Tagremover(istream& is) {
   string line;
   while (std::getline(is, line)) {
     text += line;
+    text += "\n";
   }
   edit_text();
 }
@@ -21,30 +24,23 @@ Tagremover::Tagremover(string input) {
 
 void Tagremover::edit_text(){
   remove_tags();
-  translate_tags();
+  translate_specialchars();
 }
 //assuming people write two tags
 void Tagremover::remove_tags(){
-  size_t start = text.find("<");
-  size_t end;
-  while(start != string::npos) {
-    end = text.find(">", start+1);
-    text.replace(start - 1, end + 2 - start,"");
-    start = text.find("<", end + 1);
-  }
+  std::regex e (" <[^>]*>");
+  text = std::regex_replace(text, e, "");
 }
-
-void Tagremover::translate_tags(){
-  vector<string> ori_chars = {"&lt","&gt;","&nbsp;","&amp;"};
-  vector<string> rep_chars = {"<",">","space","&"};
-  for(size_t i = 0; i < ori_chars.size(); i++) {
-    size_t start = text.find(ori_chars[i]);
-    size_t end = ori_chars[i].length();
-    while(start != string::npos) {
-      text.replace(start, end, rep_chars[i]);
-      start = text.find(ori_chars[i], start + 1 + end );
-    }
-  }
+//map istället, regex går igenom filen en gång
+void Tagremover::translate_specialchars(){
+  std::regex e("&amp");
+  text = std::regex_replace(text, e, "&");
+  e = {"&nbsp"};
+  text = std::regex_replace(text, e, " ");
+  e = {"&gt"};
+  text = std::regex_replace(text, e, ">");
+  e = {"&lt"};
+  text = std::regex_replace(text, e, "<");
 }
 
 void Tagremover::print(ostream& os) const {

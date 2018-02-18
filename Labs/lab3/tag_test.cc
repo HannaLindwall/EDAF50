@@ -17,8 +17,8 @@ void testRemoving(){
 
 }
 void testTranslating() {
-  string test = "hej &amp; &lt &gt; &nbsp;";
-  string correct = "hej & < > space";
+  string test = "hej &amp; &lt; &gt; &nbsp;";
+  string correct = "hej &; <; >;  ;";
   Tagremover tester(test);
   tester.print(cout);
   cout << tester.print_result(correct) << "translate special chars" << "\n";
@@ -28,4 +28,5 @@ int main() {
   testRemoving();
   testTranslating();
   Tagremover tester(cin);
+  tester.print(cout);
 }
