@@ -9,12 +9,12 @@ HNS::HNS(size_t s) : size(s), addresses(s){}
 
 void HNS::insert(const HostName& hn, const IPAddress& ia){
   size_t str_hash = hash<string>{}(hn) % size;
-  addresses[str_hash].push_back(make_pair(hn, ia));
+  addresses[str_hash].emplace_back(hn, ia);
 }
 bool HNS::remove(const HostName& hn){
   size_t str_hash = hash<string>{}(hn) % size;
   auto it = remove_if(addresses[str_hash].begin(), addresses[str_hash].end(),
-  [hn] (const pair<HostName, IPAddress>& pairs) {
+  [&hn] (const pair<HostName, IPAddress>& pairs) {
       return pairs.first == hn;
   });
   if(it != addresses[str_hash].end()) {
@@ -27,7 +27,7 @@ bool HNS::remove(const HostName& hn){
 IPAddress HNS::lookup(const HostName& hn) const{
   size_t str_hash = hash<string>{}(hn) % size;
   auto it = find_if(addresses[str_hash].begin(), addresses[str_hash].end(),
-  [hn] (const pair<HostName, IPAddress>& pairs) {
+  [&hn] (const pair<HostName, IPAddress>& pairs) {
       return pairs.first == hn;
   });
   return it != addresses[str_hash].end() ? it->second : NON_EXISTING_ADDRESS;

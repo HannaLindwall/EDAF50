@@ -14,6 +14,8 @@ using std::endl;
 
 class BitsetIterator : public std::iterator<std::forward_iterator_tag, bool> {
 public:
+	// using Category = std::forward_iterator_tag;
+	// using T = bool;
 	BitsetIterator(Bitset::BitStorage* pb, std::size_t p) : ref(pb, p) {}
 
 	bool operator!=(const BitsetIterator& bsi) const {

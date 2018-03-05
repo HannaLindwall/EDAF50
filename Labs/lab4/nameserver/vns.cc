@@ -3,10 +3,8 @@
 using std::string;
 using std::find_if;
 
-VNS::VNS() {}
-
 void VNS::insert(const HostName& hn, const IPAddress& ia){
-  addresses.push_back(make_pair(hn, ia));
+  addresses.emplace_back(hn, ia);
 }
 bool VNS::remove(const HostName& hn){
   auto it = remove_if(addresses.begin(), addresses.end(),

@@ -7,7 +7,6 @@ using std::unordered_map;
 
 class UMNS: public NameServerInterface {
 public:
-  UMNS();
   void insert(const HostName& hn, const IPAddress& ia) override;
   bool remove(const HostName& hn) override;
   IPAddress lookup(const HostName& ia) const override;

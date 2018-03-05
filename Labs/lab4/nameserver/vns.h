@@ -9,7 +9,6 @@ using std::pair;
 
 class VNS: public NameServerInterface {
 public:
-  VNS();
   void insert(const HostName& hn, const IPAddress& ia) override;
   bool remove(const HostName& hn) override;
   IPAddress lookup(const HostName& ia) const override;

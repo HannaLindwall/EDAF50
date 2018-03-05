@@ -1,8 +1,6 @@
 #include "mns.h"
 #include <algorithm>
 
-MNS::MNS() {}
-
 void MNS::insert(const HostName& hn, const IPAddress& ia){
   addresses[hn] = ia;
 }

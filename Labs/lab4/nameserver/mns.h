@@ -7,7 +7,6 @@ using std::map;
 
 class MNS: public NameServerInterface {
 public:
-  MNS();
   void insert(const HostName& hn, const IPAddress& ia) override;
   bool remove(const HostName& hn) override;
   IPAddress lookup(const HostName& ia) const override;

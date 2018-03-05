@@ -1,10 +1,8 @@
 #include "umns.h"
 #include <algorithm>
 
-UMNS::UMNS() {}
-
 void UMNS::insert(const HostName& hn, const IPAddress& ia){
-  addresses.insert({hn, ia});
+  addresses[hn] = ia;
 }
 bool UMNS::remove(const HostName& hn){
   auto it = addresses.find(hn);

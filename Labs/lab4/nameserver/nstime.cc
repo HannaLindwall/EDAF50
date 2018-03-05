@@ -132,7 +132,6 @@ int main() {
 	cin >> seed;
 	const char separator = ' ';
 	const int nameWidth = 10;
-	const int numWidth = 8;
 	/*
 	 * Measure the average search times for the four implementations.
 	 * Use a small (1000) value for the number of searches in the
