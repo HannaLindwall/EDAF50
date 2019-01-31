@@ -41,7 +41,6 @@ int main() {
 		}
 	}
 
-
 	// Check 'next' by creating an object describing today's date, then
 	// printing dates more than a month ahead
 	cout << "--- Today and more than a month ahead:" << endl;
